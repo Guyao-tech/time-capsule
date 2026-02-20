@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>致乖乖的时间胶囊 ⏳</title>
+    <style>
+        :root {
+            --primary-color: #ff758c;
+            --secondary-color: #ff7eb3;
+            --text-light: #ffffff;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #1a1a2e; color: var(--text-light);
+            overflow: hidden; /* 防止原生滚动干扰 */
+        }
+
+        /* 音乐播放按钮 */
+        #music-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 999;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; cursor: pointer;
+        }
+        .rotate { animation: rot 3s linear infinite; }
+        @keyframes rot { from {transform:rotate(0deg)} to {transform:rotate(360deg)} }
+
+        /* 分页容器 */
+        .swiper-container {
+            height: 100vh; width: 100%;
+            transition: transform 0.5s ease-out;
+            display: flex; flex-direction: column;
+        }
+
+        .page {
+            height: 100vh; width: 100%; flex-shrink: 0;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            padding: 30px 20px; position: relative;
+            overflow-y: auto; /* 内容多时允许内部微调 */
+        }
+
+        /* 每一页的渐变背景 */
+        .page-1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+        .page-2 { background: linear-gradient(135deg, #16213e 0%, #2d3436 100%); }
+        .page-3 { background: linear-gradient(135deg, #2d3436 0%, #0f3460 100%); }
+        .page-4 { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); }
+        .page-5 { background: linear-gradient(135deg, #533483 0%, #1a1a2e 100%); }
+
+        .section-title { border-left: 4px solid var(--primary-color); padding-left: 10px; margin-bottom: 25px; align-self: flex-start; }
+
+        /* 时间线样式 */
+        .timeline { border-left: 2px dashed rgba(255,255,255,0.3); padding-left: 20px; width: 100%; max-width: 400px; }
+        .timeline-item { margin-bottom: 20px; text-align: left; }
+        .timeline-date { font-size: 0.85rem; color: var(--secondary-color); font-weight: bold; }
+        .chat-bubble { 
+            background: rgba(255,255,255,0.1); padding: 10px 15px; 
+            border-radius: 12px 12px 12px 0; margin-top: 5px; font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* 梗博物馆样式 */
+        .museum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+        .museum-card { 
+            background: #ffffff; color: #333; padding: 12px; border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); transform: rotate(-1deg); text-align: left;
+        }
+        .museum-card:nth-child(even) { transform: rotate(1deg); }
+        .museum-card h4 { margin: 0; font-size: 0.9rem; color: #d63031; }
+        .museum-card .tag { font-size: 0.7rem; background: #eee; padding: 2px 5px; border-radius: 4px; }
+        .museum-card p { font-size: 0.75rem; margin-top: 5px; line-height: 1.3; }
+
+        /* 便利贴样式 */
+        .sticky-wall { width: 100%; }
+        .sticky-note {
+            background: #fff34d; color: #333; padding: 15px; margin-bottom: 12px;
+            box-shadow: 5px 5px 7px rgba(0,0,0,0.3); transform: rotate(0.5deg); text-align: left;
+        }
+        .sticky-note strong { font-size: 0.9rem; }
+        .sticky-note small { display: block; margin-top: 5px; opacity: 0.8; }
+
+        /* 输入框 */
+        .input-area { width: 100%; text-align: center; }
+        textarea { width: 90%; height: 100px; border-radius: 10px; padding: 10px; border: none; margin-bottom: 15px; }
+        button { background: var(--primary-color); color: white; border: none; padding: 12px 40px; border-radius: 25px; font-weight: bold; }
+
+        /* 翻页提示图标 */
+        .up-arrow { position: absolute; bottom: 20px; animation: updown 2s infinite; font-size: 20px; opacity: 0.6; }
+        @keyframes updown { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-10px)} }
+    </style>
+</head>
+<body>
+
+    <div id="music-btn" onclick="toggleMusic()">🎵
+        <audio id="por-una-cabeza" loop preload="auto" src="bgm.mp3"></audio>
+    </div>
+
+    <div class="swiper-container" id="swiper">
+        <section class="page page-1">
+            <h1 style="font-size: 1.8rem;">❤️ 致乖乖的时间胶囊 ❤️</h1>
+            <p>欢迎打开我们的专属时间胶囊</p>
+            <p style="opacity: 0.7;">向下滑动，解锁回忆...</p>
+            <div class="up-arrow">↓</div>
+        </section>
+
+        <section class="page page-2">
+            <h2 class="section-title">💘 胶囊1：心动时间线</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">[2025/10/19] 相识日</div>
+                    <div class="chat-bubble">"都在去吃饭的路上"</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">[2025/10/27] 初见日</div>
+                    <div class="chat-bubble">"感觉有希望周末打乒乓"</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">[2025/10/30] 深夜debug</div>
+                    <div class="chat-bubble">"和代码杠上了，终于搞清楚问题出在哪了"</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">[2025/11/23] 散步&深度交流</div>
+                    <div class="chat-bubble">"这家好了 挨着苏州河能逛逛"</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">[2026/1/4] 心动确认</div>
+                    <div class="chat-bubble">"我现在在体育馆乒乓球室这，你来一下呗"</div>
+                </div>
+            </div>
+            <div class="up-arrow">↓</div>
+        </section>
+
+        <section class="page page-3">
+            <h2 class="section-title">🏛️ 胶囊2：专属梗博物馆</h2>
+            <div class="museum-grid">
+                <div class="museum-card">
+                    <h4>🦌 梅花鹿之谜</h4>
+                    <span class="tag">2026/02/18</span>
+                    <p>"为啥是梅花鹿" - 至今未解之谜</p>
+                </div>
+                <div class="museum-card">
+                    <h4>🎆 烟花执念</h4>
+                    <span class="tag">2025/12/13</span>
+                    <p>"怎么又是烟花哈哈哈" - 第N个烟花计划</p>
+                </div>
+                <div class="museum-card">
+                    <h4>🎡 海洋馆约定</h4>
+                    <span class="tag">2025/12/18</span>
+                    <p>"还想跟你看烟花逛海洋馆嘞" - 待完成的约定</p>
+                </div>
+                <div class="museum-card">
+                    <h4>💐 花语偏好</h4>
+                    <span class="tag">2026/01/05</span>
+                    <p>"但我喜欢原色花" - 重要情报get√</p>
+                </div>
+            </div>
+            <div class="up-arrow">↓</div>
+        </section>
+
+        <section class="page page-4">
+            <h2 class="section-title">🌟 胶囊3：日常小确幸</h2>
+            <div class="sticky-wall">
+                <div class="sticky-note">
+                    <strong>📝 "你竟然忘记续火花"</strong>
+                    <small>(2026/2/17) - 重要提醒：火花要记得续！</small>
+                </div>
+                <div class="sticky-note" style="background: #a29bfe;">
+                    <strong>📝 "我感觉我代码像是上个世纪写的"</strong>
+                    <small>(2025/11/6) - 自嘲技能MAX</small>
+                </div>
+                <div class="sticky-note" style="background: #fab1a0;">
+                    <strong>📝 "上次你给我跑通的代码"</strong>
+                    <small>(2025/12/8) - 感谢技术支援 ✓</small>
+                </div>
+            </div>
+            <div class="up-arrow">↓</div>
+        </section>
+
+        <section class="page page-5">
+            <h2 class="section-title">✨ 胶囊4：未完待续…</h2>
+            <div class="input-area">
+                <p>💌 下一个胶囊由你来填写：</p>
+                <textarea placeholder="输入想写下的话..."></textarea><br>
+                <button onclick="alert('回忆已存入星空✨')">提交</button>
+                <p style="margin-top:30px; font-size: 0.8rem; opacity: 0.7;">我们的故事，还在继续书写...</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let currentIdx = 0;
+        const pages = document.querySelectorAll('.page');
+        const container = document.getElementById('swiper');
+        const total = pages.length;
+
+        // 核心滑动控制：修复不流畅问题
+        let startY;
+        document.addEventListener('touchstart', e => startY = e.touches[0].pageY);
+        document.addEventListener('touchmove', e => e.preventDefault(), {passive: false}); // 阻止默认拉动行为
+        document.addEventListener('touchend', e => {
+            let endY = e.changedTouches[0].pageY;
+            if (startY - endY > 50 && currentIdx < total - 1) currentIdx++;
+            if (endY - startY > 50 && currentIdx > 0) currentIdx--;
+            container.style.transform = `translateY(-${currentIdx * 100}vh)`;
+        });
+
+        // 音乐控制
+        function toggleMusic() {
+            const audio = document.getElementById('bgm');
+            const btn = document.getElementById('music-btn');
+            if (audio.paused) {
+                audio.play();
+                btn.classList.add('rotate');
+            } else {
+                audio.pause();
+                btn.classList.remove('rotate');
+            }
+        }
+    </script>
+</body>
+</html>
