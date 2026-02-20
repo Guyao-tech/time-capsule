@@ -199,6 +199,7 @@
 
         // 播放/暂停切换函数
         function toggleMusic() {
+            alert("正在尝试播放音乐...")
             if (audio.paused) {
                 audio.play().then(() => {
                     btn.classList.add('rotate');
@@ -225,4 +226,5 @@
 </body>
 
 </html>
+
 
