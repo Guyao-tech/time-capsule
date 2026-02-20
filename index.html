@@ -194,35 +194,35 @@
     </div>
 
     <script>
-        let currentIdx = 0;
-        const pages = document.querySelectorAll('.page');
-        const container = document.getElementById('swiper');
-        const total = pages.length;
+        const audio = document.getElementById('por-una-cabeza');
+        const btn = document.getElementById('music-btn');
 
-        // 核心滑动控制：修复不流畅问题
-        let startY;
-        document.addEventListener('touchstart', e => startY = e.touches[0].pageY);
-        document.addEventListener('touchmove', e => e.preventDefault(), {passive: false}); // 阻止默认拉动行为
-        document.addEventListener('touchend', e => {
-            let endY = e.changedTouches[0].pageY;
-            if (startY - endY > 50 && currentIdx < total - 1) currentIdx++;
-            if (endY - startY > 50 && currentIdx > 0) currentIdx--;
-            container.style.transform = `translateY(-${currentIdx * 100}vh)`;
-        });
-
-        // 音乐控制
+        // 播放/暂停切换函数
         function toggleMusic() {
-            const audio = document.getElementById('bgm');
-            const btn = document.getElementById('music-btn');
             if (audio.paused) {
-                audio.play();
-                btn.classList.add('rotate');
+                audio.play().then(() => {
+                    btn.classList.add('rotate');
+                }).catch(err => console.log("播放被拦截:", err));
             } else {
                 audio.pause();
                 btn.classList.remove('rotate');
             }
         }
+    
+        // 【核心】监听全页点击：只要用户点一下屏幕，就尝试播放
+        document.body.addEventListener('click', function() {
+            if (audio.paused) {
+                toggleMusic();
+            }
+        }, { once: true }); // 只执行一次，激活后交给按钮控制
+    
+        // 【针对微信】尝试利用微信的内置环境自动播放
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            audio.play();
+            btn.classList.add('rotate');
+        }, false);
     </script>
 </body>
 
 </html>
+
