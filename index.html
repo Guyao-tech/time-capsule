@@ -194,37 +194,67 @@
     </div>
 
     <script>
+        let currentIdx = 0;
+        const container = document.getElementById('swiper');
+        const total = 5; // 确认你的总页数
+    
+        let startY;
+        let isMoving = false;
+    
+        // 1. 记录触摸起始位置
+        document.addEventListener('touchstart', e => {
+            startY = e.touches[0].pageY;
+            isMoving = false;
+        }, { passive: true });
+    
+        // 2. 监听触摸移动（移除 e.preventDefault() 以恢复滑动感）
+        document.addEventListener('touchmove', e => {
+            isMoving = true;
+        }, { passive: true });
+    
+        // 3. 触摸结束时判断方向
+        document.addEventListener('touchend', e => {
+            if (!isMoving) return;
+    
+            let endY = e.changedTouches[0].pageY;
+            let diff = startY - endY;
+    
+            // 只有滑动距离超过 50px 才触发翻页，防止误触
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIdx < total - 1) {
+                    // 向上滑，去下一页
+                    currentIdx++;
+                } else if (diff < 0 && currentIdx > 0) {
+                    // 向下滑，去上一页
+                    currentIdx--;
+                }
+                // 执行翻页动画
+                container.style.transform = `translateY(-${currentIdx * 100}vh)`;
+            }
+        });
+    
+        // --- 音乐控制逻辑保留 ---
         const audio = document.getElementById('por-una-cabeza');
         const btn = document.getElementById('music-btn');
-
-        // 播放/暂停切换函数
+    
         function toggleMusic() {
             if (audio.paused) {
-                audio.play().then(() => {
-                    btn.classList.add('rotate');
-                }).catch(err => console.log("播放被拦截:", err));
+                audio.play().then(() => btn.classList.add('rotate'));
             } else {
                 audio.pause();
                 btn.classList.remove('rotate');
             }
         }
     
-        // 【核心】监听全页点击：只要用户点一下屏幕，就尝试播放
-        document.body.addEventListener('click', function() {
-            if (audio.paused) {
-                toggleMusic();
-            }
-        }, { once: true }); // 只执行一次，激活后交给按钮控制
-    
-        // 【针对微信】尝试利用微信的内置环境自动播放
-        document.addEventListener("WeixinJSBridgeReady", function () {
-            audio.play();
-            btn.classList.add('rotate');
-        }, false);
+        // 只要点屏幕，就尝试播放音乐（如果还没响的话）
+        document.body.addEventListener('click', () => {
+            if (audio.paused) toggleMusic();
+        }, { once: true });
     </script>
 </body>
 
 </html>
+
 
 
 
