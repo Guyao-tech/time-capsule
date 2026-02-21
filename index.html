@@ -298,7 +298,7 @@
             const updates = data.filter(item => !item.isPage);
             updates.forEach(item => {
                 if (item.targetId === "1") {
-                    appendItem('timeline-v1', `<div class="timeline-date">[${item.title}]</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
+                    appendItem('timeline-v1', `<div class="timeline-date">[${item.date}${item.title}]</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
                 } else if (item.targetId === "2") {
                     appendItem('museum-v2', `<h4>${item.title}</h4><span style="font-size:0.6rem;opacity:0.5;">${item.date}</span><p>${item.content}</p>`, "museum-card");
                 } else if (item.targetId === "3") {
@@ -338,6 +338,7 @@
     </script>
 </body>
 </html>
+
 
 
 
