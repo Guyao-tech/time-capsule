@@ -152,7 +152,8 @@
                     <option value="2">补充胶囊2：专属梗博物馆</option>
                     <option value="3">补充胶囊3：日常小确幸</option>
                 </select>
-
+                <input type="text" id="capsule-title" placeholder="输入小标题" style="width: 100%; padding: 10px; border-radius: 8px; border: none; margin-bottom: 12px; background: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                
                 <textarea id="capsule-content" placeholder="在这里记录新的时光胶囊..." style="width: 100%; height: 100px; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); resize: none;"></textarea>
                 
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -242,52 +243,49 @@
             alert("✨ 记忆已归位到对应胶囊中！");
         }
         
-        function loadMemory() {
-            const memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
-            
-            // 获取三个胶囊的容器
-            const box1 = document.getElementById('timeline-v1');
-            const box2 = document.getElementById('museum-v2');
-            const box3 = document.getElementById('sticky-v3');
-            const boxNew = document.getElementById('new-capsules-display');
-        
-            // 清理之前生成的动态内容（保留原始静态内容）
-            // 注意：这里建议在 HTML 里给原始内容加个 class="static"，方便清理，或者简单处理如下：
+        function renderExtensions(memories) {
+            // 清除旧的动态内容
             document.querySelectorAll('.dynamic-item').forEach(el => el.remove());
         
             memories.forEach(item => {
-                const div = document.createElement('div');
-                div.className = "dynamic-item"; // 标记为动态生成
-        
                 if (item.target === "1") {
-                    // 插入到时间线
-                    div.className += " timeline-item";
-                    div.innerHTML = `<div class="timeline-date">[${item.date}] 补充内容</div><div class="chat-bubble">${item.content}</div>`;
-                    box1.appendChild(div);
+                    // 时间线：标题显示在日期位置
+                    appendItem('timeline-v1', `
+                        <div class="timeline-date">[${item.title}]</div>
+                        <div class="chat-bubble">${item.content}</div>
+                    `, "timeline-item");
                 } 
                 else if (item.target === "2") {
-                    // 插入到梗博物馆
-                    div.className += " museum-card";
-                    div.style.background = "#fff"; // 确保卡片底色
-                    div.innerHTML = `<h4>📝 新增馆藏</h4><span class="tag">${item.date}</span><p>${item.content}</p>`;
-                    box2.appendChild(div);
+                    // 博物馆：标题显示在卡片标题 H4
+                    appendItem('museum-v2', `
+                        <h4>${item.title}</h4>
+                        <span class="tag">${item.date}</span>
+                        <p>${item.content}</p>
+                    `, "museum-card");
                 } 
                 else if (item.target === "3") {
-                    // 插入到便利贴墙
-                    div.className += " sticky-note";
-                    div.style.background = "#fff34d"; // 经典便利贴黄
-                    div.innerHTML = `<strong>📝 补充记忆</strong><small>(${item.date})</small><p style="margin:5px 0 0 0; font-size:0.8rem;">${item.content}</p>`;
-                    box3.appendChild(div);
-                } 
-                else {
-                    // 插入到最后一页的“新胶囊”展示区
-                    div.style.cssText = "background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; border-left: 3px solid var(--secondary-color); color: white;";
-                    div.innerHTML = `<strong>🆕 新胶囊</strong> <small style="opacity:0.6">${item.date}</small><br>${item.content}`;
-                    boxNew.prepend(div);
+                    // 便利贴：标题显示在 Strong 标签
+                    appendItem('sticky-v3', `
+                        <strong>📝 ${item.title}</strong>
+                        <small>(${item.date})</small>
+                        <p style="margin:5px 0 0 0; font-size:0.8rem;">${item.content}</p>
+                    `, "sticky-note");
                 }
             });
         }
-    
+
+        function appendItem(parentId, html, className) {
+            const parent = document.getElementById(parentId);
+            if (!parent) return;
+            const div = document.createElement('div');
+            div.className = "dynamic-item " + className;
+            // 博物馆卡片需要额外的背景色
+            if(className.includes("museum-card")) div.style.background = "#fff";
+            if(className.includes("sticky-note")) div.style.background = "#fff34d";
+            div.innerHTML = html;
+            parent.appendChild(div);
+        }
+                
         function clearMemory() {
             if(confirm("确定要清空新写入的记录吗？")) {
                 localStorage.removeItem("love_capsules_data");
@@ -297,6 +295,7 @@
     </script>
 </body>
 </html>
+
 
 
 
