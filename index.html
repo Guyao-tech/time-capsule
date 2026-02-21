@@ -139,11 +139,28 @@
         </section>
 
         <section class="page page-5">
-            <h2 class="section-title">✨ 胶囊4：未完待续…</h2>
-            <div class="input-area">
-                <p>💌 下一个胶囊由你来填写：</p>
-                <textarea placeholder="输入想写下的话..."></textarea><br>
-                <button onclick="alert('回忆已存入星空✨')">提交</button>
+            <h2 class="section-title">✨ 胶囊实验室</h2>
+            <div class="input-area" style="text-align: left; width: 95%; max-width: 400px;">
+                <p style="margin-bottom: 8px; font-size: 0.9rem;">💌 写入新记忆：</p>
+                
+                <select id="capsule-target" style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid var(--primary-color); background: rgba(255,255,255,0.9); font-size: 0.9rem;">
+                    <option value="new">🆕 创建独立新胶囊</option>
+                    <option value="1">补充胶囊1：心动时间线</option>
+                    <option value="2">补充胶囊2：专属梗博物馆</option>
+                    <option value="3">补充胶囊3：日常小确幸</option>
+                </select>
+
+                <textarea id="capsule-content" placeholder="在这里写下想对乖乖说的话..." style="width: 100%; height: 100px; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); resize: none;"></textarea>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button onclick="saveCapsule()" style="flex: 2; background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 25px; font-weight: bold; cursor: pointer;">密封存入</button>
+                    <button onclick="clearMemory()" style="flex: 1; background: #666; color: white; border: none; padding: 12px; border-radius: 25px; font-size: 0.8rem; cursor: pointer;">清空</button>
+                </div>
+
+                <div id="new-capsules-display" style="width: 100%; max-height: 200px; overflow-y: auto; padding-right: 5px;">
+                    </div>
+                
+                <p style="margin-top: 20px; font-size: 0.75rem; opacity: 0.6; text-align: center;">注：此处的记忆仅保存在当前设备中</p>
             </div>
         </section>
     </div>
@@ -151,38 +168,34 @@
     <script>
         let currentIdx = 0;
         const container = document.getElementById('swiper');
-        const total = 5;
+        const total = 5; 
         let startY = 0;
-
-        // 核心滑动修复：强制捕获触摸事件
+    
+        // --- 1. 核心滑动逻辑 (保持之前的修复版) ---
         document.addEventListener('touchstart', (e) => {
             startY = e.touches[0].pageY;
         }, { passive: false });
-
+    
         document.addEventListener('touchmove', (e) => {
-            e.preventDefault(); // 阻止浏览器默认滚动，关键！
+            e.preventDefault(); 
         }, { passive: false });
-
+    
         document.addEventListener('touchend', (e) => {
             const endY = e.changedTouches[0].pageY;
             const diff = startY - endY;
-
-            if (Math.abs(diff) > 50) { // 滑动超过50px翻页
-                if (diff > 0 && currentIdx < total - 1) {
-                    currentIdx++;
-                } else if (diff < 0 && currentIdx > 0) {
-                    currentIdx--;
-                }
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIdx < total - 1) currentIdx++;
+                else if (diff < 0 && currentIdx > 0) currentIdx--;
                 container.style.transform = `translateY(-${currentIdx * 100}vh)`;
             }
         }, { passive: false });
-
-        // 音乐逻辑
+    
+        // --- 2. 音乐控制逻辑 ---
         const audio = document.getElementById('por-una-cabeza');
         const btn = document.getElementById('music-btn');
-
+    
         function toggleMusic(e) {
-            if(e) e.stopPropagation(); // 防止点击按钮触发翻页
+            if(e) e.stopPropagation();
             if (audio.paused) {
                 audio.play().then(() => btn.classList.add('rotate'));
             } else {
@@ -190,11 +203,67 @@
                 btn.classList.remove('rotate');
             }
         }
-
-        // 首次点击屏幕任何位置开始播放
-        document.addEventListener('click', () => {
+        document.body.addEventListener('click', () => {
             if (audio.paused) toggleMusic();
         }, { once: true });
+    
+        // --- 3. 【新增】存储与写入逻辑 (这就是你要找的 saveCapsule) ---
+        
+        // 页面一加载就显示之前存过的记忆
+        window.addEventListener('DOMContentLoaded', loadMemory);
+    
+        function saveCapsule() {
+            const target = document.getElementById('capsule-target').value;
+            const content = document.getElementById('capsule-content').value;
+    
+            if (!content.trim()) {
+                alert("胶囊里不能是空的哦~");
+                return;
+            }
+    
+            const timestamp = new Date().toLocaleDateString();
+            // 获取本地存储中的旧数据
+            let memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
+    
+            // 将新内容压入数组
+            memories.push({
+                target: target,
+                content: content,
+                date: timestamp
+            });
+    
+            // 存回本地
+            localStorage.setItem("love_capsules_data", JSON.stringify(memories));
+    
+            // 清空输入框并刷新列表
+            document.getElementById('capsule-content').value = "";
+            loadMemory();
+            alert("✨ 记忆已密封存入这台设备！");
+        }
+    
+        function loadMemory() {
+            const memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
+            const displayArea = document.getElementById('new-capsules-display');
+            if(!displayArea) return; // 防止在其他页面报错
+    
+            displayArea.innerHTML = "";
+            memories.forEach(item => {
+                const div = document.createElement('div');
+                div.style.cssText = "background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; border-left: 3px solid var(--secondary-color); color: white;";
+                
+                let label = item.target === "new" ? "🆕 新胶囊" : `补充：胶囊${item.target}`;
+                div.innerHTML = `<strong>${label}</strong> <small style="opacity:0.6">${item.date}</small><br>${item.content}`;
+                displayArea.prepend(div); // 最新写的排在最上面
+            });
+        }
+    
+        function clearMemory() {
+            if(confirm("确定要清空新写入的记录吗？")) {
+                localStorage.removeItem("love_capsules_data");
+                loadMemory();
+            }
+        }
     </script>
 </body>
 </html>
+
