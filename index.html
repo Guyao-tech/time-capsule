@@ -53,50 +53,57 @@
         .scroll-area::-webkit-scrollbar { width: 4px; }
         .scroll-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-        /* 背景统一化 */
+        /* 背景渐变保持一致 */
         .page-1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
         .page-2 { background: linear-gradient(135deg, #16213e 0%, #2d3436 100%); }
         .page-3 { background: linear-gradient(135deg, #2d3436 0%, #0f3460 100%); }
         .page-4 { background: linear-gradient(135deg, #0f3460 0%, #533483 100%); }
-        /* 新建页背景色：延续星空深蓝色调 */
         .dynamic-page { background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%); }
         .page-5 { background: linear-gradient(135deg, #533483 0%, #1a1a2e 100%); }
 
         .section-title { border-left: 4px solid var(--primary-color); padding-left: 10px; margin-bottom: 20px; align-self: flex-start; flex-shrink: 0; }
 
-        /* 统一卡片样式 */
-        .unified-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 15px;
-            width: 95%;
-            text-align: left;
-        }
-        .unified-card h3 { margin: 0; color: var(--secondary-color); font-size: 1.1rem; }
+        /* --- 统一卡片基础结构 --- */
+        .unified-card { padding: 15px; margin-bottom: 15px; width: 95%; text-align: left; }
+        .unified-card h3 { margin: 0; font-size: 1.1rem; }
         .unified-card small { font-size: 0.7rem; opacity: 0.6; display: block; margin: 5px 0; }
         .unified-card hr { border: 0.5px solid rgba(255,255,255,0.1); margin: 10px 0; }
-        .unified-card p { line-height: 1.6; font-size: 0.95rem; margin: 0; color: #eee; }
+        .unified-card p { line-height: 1.6; font-size: 0.95rem; margin: 0; }
+
+        /* --- 4种随机卡片风格 --- */
+        .theme-1 { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); border-radius: 15px; }
+        .theme-1 h3 { color: var(--secondary-color); }
+        .theme-1 p { color: #eee; }
+
+        .theme-2 { background: rgba(253, 246, 227, 0.9); color: #5d4037 !important; border-radius: 4px; border-left: 5px solid #d3b17d; }
+        .theme-2 h3 { color: #8d6e63 !important; }
+        .theme-2 p { color: #5d4037 !important; }
+        .theme-2 small { color: #a1887f !important; }
+
+        .theme-3 { background: rgba(0, 0, 0, 0.25); border: 1px dashed #ff7eb3; border-radius: 20px; }
+        .theme-3 h3 { color: #ff7eb3 !important; }
+        .theme-3 p { color: #fff; }
+
+        .theme-4 { background: #fff34d; color: #333 !important; border-radius: 2px; transform: rotate(-1deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
+        .theme-4 h3 { color: #d63031 !important; border-bottom: 1px dashed #333; }
+        .theme-4 p { color: #333 !important; }
+        .theme-4 small { color: #666 !important; }
 
         /* 原有胶囊样式 */
-        .timeline { border-left: 2px dashed rgba(255,255,255,0.3); padding-left: 20px; width: 100%; max-width: 400px; }
+        .timeline { border-left: 2px dashed rgba(255,255,255,0.3); padding-left: 20px; width: 100%; }
         .timeline-item { margin-bottom: 20px; text-align: left; }
         .timeline-date { font-size: 0.85rem; color: var(--secondary-color); font-weight: bold; }
         .chat-bubble { background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 12px 12px 12px 0; margin-top: 5px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.1); }
         .museum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
         .museum-card { background: #ffffff; color: #333; padding: 12px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transform: rotate(-1deg); text-align: left; }
         .museum-card h4 { margin: 0; font-size: 0.9rem; color: #d63031; }
-        .museum-card p { font-size: 0.75rem; margin-top: 5px; line-height: 1.3; }
         .sticky-wall { width: 100%; }
         .sticky-note { background: #fff34d; color: #333; padding: 15px; margin-bottom: 12px; box-shadow: 5px 5px 7px rgba(0,0,0,0.3); text-align: left; }
 
-        /* 输入区 */
         .input-area { width: 100%; max-width: 400px; }
         input, textarea, select { width: 100%; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; background: rgba(255,255,255,0.95); font-size: 0.9rem; }
         button { background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:active { transform: scale(0.95); opacity: 0.8; }
+        button:active { transform: scale(0.95); }
 
         .up-arrow { position: absolute; bottom: 20px; animation: updown 2s infinite; font-size: 20px; opacity: 0.6; pointer-events: none; }
         @keyframes updown { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-10px)} }
@@ -133,10 +140,10 @@
             <h2 class="section-title">🏛️ 胶囊2：专属梗博物馆</h2>
             <div class="scroll-area">
                 <div class="museum-grid" id="museum-v2">
-                    <div class="museum-card"><h4>🦌 梅花鹿之谜</h4><span class="tag">2026/02/18</span><p>"为啥是梅花鹿" - 未解之谜</p></div>
-                    <div class="museum-card"><h4>🎆 烟花执念</h4><span class="tag">2025/12/13</span><p>"怎么又是烟花哈哈哈" - 第N个计划</p></div>
-                    <div class="museum-card"><h4>🎡 海洋馆约定</h4><span class="tag">2025/12/18</span><p>"还想跟你看烟花逛海洋馆嘞"</p></div>
-                    <div class="museum-card"><h4>💐 花语偏好</h4><span class="tag">2026/01/05</span><p>"但我喜欢原色花" - 重要情报</p></div>
+                    <div class="museum-card"><h4>🦌 梅花鹿之谜</h4><p>"为啥是梅花鹿" - 未解之谜</p></div>
+                    <div class="museum-card"><h4>🎆 烟花执念</h4><p>"怎么又是烟花哈哈哈" - 第N个计划</p></div>
+                    <div class="museum-card"><h4>🎡 海洋馆约定</h4><p>"还想跟你看烟花逛海洋馆嘞"</p></div>
+                    <div class="museum-card"><h4>💐 花语偏好</h4><p>"但我喜欢原色花" - 重要情报</p></div>
                 </div>
             </div>
             <div class="up-arrow">↓</div>
@@ -167,31 +174,23 @@
                 </select>
                 <div id="title-inputs">
                     <input type="text" id="capsule-title" placeholder="新胶囊页">
-                    <input type="text" id="capsule-subtitle" placeholder="胶囊" id="sub-input">
+                    <input type="text" id="capsule-subtitle" placeholder="胶囊">
                 </div>
                 <textarea id="capsule-content" placeholder="记录当下的心情..."></textarea>
-                
                 <div style="display: flex; gap: 10px;">
                     <button onclick="saveCapsule()" style="flex: 2;">密封存入</button>
                     <button onclick="clearMemory()" style="flex: 1; background: #666;">重置</button>
                 </div>
-                <p style="font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:10px; text-align:center;">提示：新建页面后，下拉菜单会出现该页面选项</p>
             </div>
         </section>
     </div>
 
     <script>
-        let currentIdx = 0;
-        let total = 5; 
-        let startY = 0;
+        let currentIdx = 0; let total = 5; let startY = 0;
         const container = document.getElementById('swiper');
 
         document.addEventListener('touchstart', e => startY = e.touches[0].pageY, { passive: false });
-        document.addEventListener('touchmove', e => {
-            if(e.target.closest('.scroll-area')) return;
-            e.preventDefault();
-        }, { passive: false });
-        
+        document.addEventListener('touchmove', e => { if(e.target.closest('.scroll-area')) return; e.preventDefault(); }, { passive: false });
         document.addEventListener('touchend', e => {
             if(e.target.closest('.scroll-area')) return;
             const diff = startY - e.changedTouches[0].pageY;
@@ -204,11 +203,7 @@
 
         const audio = document.getElementById('por-una-cabeza');
         const btn = document.getElementById('music-btn');
-        function toggleMusic(e) {
-            if(e) e.stopPropagation();
-            if (audio.paused) { audio.play().then(() => btn.classList.add('rotate')); } 
-            else { audio.pause(); btn.classList.remove('rotate'); }
-        }
+        function toggleMusic(e) { if(e) e.stopPropagation(); if (audio.paused) { audio.play().then(() => btn.classList.add('rotate')); } else { audio.pause(); btn.classList.remove('rotate'); } }
 
         window.addEventListener('DOMContentLoaded', loadMemory);
 
@@ -216,17 +211,8 @@
             const target = document.getElementById('capsule-target').value;
             const titleInput = document.getElementById('capsule-title');
             const subtitleInput = document.getElementById('capsule-subtitle');
-        
-            if (target === 'new') {
-                // 新建模式：第一级是页面大标题，第二级是卡片标题
-                titleInput.placeholder = "新胶囊页";
-                subtitleInput.style.display = 'block';
-                subtitleInput.placeholder = "胶囊";
-            } else {
-                // 补充模式：第一级（大标题）已固定，此时提示应为卡片标题
-                titleInput.placeholder = "胶囊";
-                subtitleInput.style.display = 'none';
-            }
+            if (target === 'new') { titleInput.placeholder = "新胶囊页"; subtitleInput.style.display = 'block'; subtitleInput.placeholder = "胶囊"; } 
+            else { titleInput.placeholder = "胶囊"; subtitleInput.style.display = 'none'; }
         }
 
         function saveCapsule() {
@@ -234,114 +220,82 @@
             const title = document.getElementById('capsule-title').value.trim();
             const subtitle = document.getElementById('capsule-subtitle').value.trim();
             const content = document.getElementById('capsule-content').value.trim();
-
             if (!content || !title) { alert("胶囊和内容是必填的哦~"); return; }
 
             const timestamp = new Date().toLocaleDateString();
             let memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
+            
+            let themeId;
+            if (target === 'new') {
+                themeId = Math.floor(Math.random() * 4) + 1; // 新页面随机UI
+            } else {
+                const parent = memories.find(m => m.id === target && m.isPage);
+                themeId = parent ? parent.themeId : 1; // 补充内容继承UI
+            }
 
             const newId = "page_" + Date.now();
             memories.push({
                 id: target === 'new' ? newId : target,
                 isPage: target === 'new',
-                title,
-                subtitle: subtitle || "Memory",
-                content,
-                date: timestamp,
-                targetId: target 
+                title, subtitle: subtitle || "Memory",
+                content, date: timestamp, targetId: target,
+                themeId: themeId
             });
 
             localStorage.setItem("love_capsules_data", JSON.stringify(memories));
-            document.getElementById('capsule-title').value = "";
-            document.getElementById('capsule-subtitle').value = "";
-            document.getElementById('capsule-content').value = "";
-            loadMemory();
-            alert("✨ 胶囊已封存！");
+            location.reload();
         }
 
         function loadMemory() {
             const data = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
-            document.querySelectorAll('.dynamic-item').forEach(el => el.remove());
-            document.querySelectorAll('.dynamic-page').forEach(el => el.remove());
-            
             const select = document.getElementById('capsule-target');
-            select.innerHTML = `
-                <option value="new">🆕 创建全新独立胶囊页</option>
-                <option value="1">补充到：💘 胶囊1 (时间线)</option>
-                <option value="2">补充到：🏛️ 胶囊2 (博物馆)</option>
-                <option value="3">补充到：🌟 胶囊3 (便利贴)</option>
-            `;
-
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             
+            // 渲染独立页
             const pages = data.filter(item => item.isPage);
             pages.forEach(page => {
                 const sec = document.createElement('section');
                 sec.className = "page dynamic-page";
+                const themeClass = `theme-${page.themeId || 1}`;
                 sec.innerHTML = `
                     <h2 class="section-title">${page.title}</h2>
                     <div class="scroll-area">
                         <div id="content-${page.id}" style="width:100%; display:flex; flex-direction:column; align-items:center;">
-                            <div class="unified-card">
-                                <h3>${page.subtitle}</h3>
-                                <small>${page.date}</small>
-                                <hr>
-                                <p>${page.content}</p>
-                            </div>
+                            <div class="unified-card ${themeClass}"><h3>${page.subtitle}</h3><small>${page.date}</small><hr><p>${page.content}</p></div>
                         </div>
                     </div>
-                    <div class="up-arrow">↓</div>
-                `;
+                    <div class="up-arrow">↓</div>`;
                 dynamicContainer.appendChild(sec);
-
-                const opt = document.createElement('option');
-                opt.value = page.id;
-                opt.textContent = `补充到：${page.title}`;
-                select.appendChild(opt);
+                const opt = document.createElement('option'); opt.value = page.id; opt.textContent = `补充到：${page.title}`; select.appendChild(opt);
             });
 
+            // 渲染补充内容
             const updates = data.filter(item => !item.isPage);
             updates.forEach(item => {
-                if (item.targetId === "1") {
-                    appendItem('timeline-v1', `<div class="timeline-date">[${item.date}] ${item.title}</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
-                } else if (item.targetId === "2") {
-                    appendItem('museum-v2', `<h4>${item.title}</h4><span style="font-size:0.6rem;opacity:0.5;">${item.date}</span><p>${item.content}</p>`, "museum-card");
-                } else if (item.targetId === "3") {
-                    appendItem('sticky-v3', `<strong>📝 ${item.title}</strong><small>(${item.date})</small><p style="font-size:0.85rem;margin-top:5px;">${item.content}</p>`, "sticky-note");
-                } else {
+                const themeClass = `theme-${item.themeId || 1}`;
+                if (item.targetId === "1") appendItem('timeline-v1', `<div class="timeline-date">[${item.date}] ${item.title}</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
+                else if (item.targetId === "2") appendItem('museum-v2', `<h4>${item.title}</h4><p>${item.content}</p>`, "museum-card");
+                else if (item.targetId === "3") appendItem('sticky-v3', `<strong>📝 ${item.title}</strong><small>(${item.date})</small><p style="font-size:0.85rem;">${item.content}</p>`, "sticky-note");
+                else {
                     const targetBox = document.getElementById(`content-${item.targetId}`);
                     if(targetBox) {
                         const div = document.createElement('div');
-                        div.className = "unified-card dynamic-item";
-                        // 补充内容的背景色稍微暗一点点作为区分
-                        div.style.background = "rgba(255, 255, 255, 0.05)"; 
+                        div.className = `unified-card dynamic-item ${themeClass}`;
                         div.innerHTML = `<h3>${item.title}</h3><small>${item.date}</small><hr><p>${item.content}</p>`;
                         targetBox.appendChild(div);
                     }
                 }
             });
-
             total = 5 + pages.length;
             toggleTitleMode();
         }
 
         function appendItem(parentId, html, className) {
-            const parent = document.getElementById(parentId);
-            if (!parent) return;
-            const div = document.createElement('div');
-            div.className = "dynamic-item " + className;
-            div.innerHTML = html;
-            parent.appendChild(div);
+            const parent = document.getElementById(parentId); if (!parent) return;
+            const div = document.createElement('div'); div.className = "dynamic-item " + className; div.innerHTML = html; parent.appendChild(div);
         }
 
-        function clearMemory() {
-            if(confirm("确定清空所有记忆吗？清空后将无法恢复。")) {
-                localStorage.removeItem("love_capsules_data");
-                location.reload();
-            }
-        }
+        function clearMemory() { if(confirm("清空后将无法恢复？")) { localStorage.removeItem("love_capsules_data"); location.reload(); } }
     </script>
 </body>
 </html>
-
-
