@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>致乖乖的时间胶囊 ⏳</title>
+    <title>致乖乖的时光胶囊 ⏳</title>
     <style>
         :root {
             --primary-color: #ff758c;
@@ -213,8 +213,20 @@
         window.addEventListener('DOMContentLoaded', loadMemory);
 
         function toggleTitleMode() {
-            const isNew = document.getElementById('capsule-target').value === 'new';
-            document.getElementById('capsule-subtitle').style.display = isNew ? 'block' : 'none';
+            const target = document.getElementById('capsule-target').value;
+            const titleInput = document.getElementById('capsule-title');
+            const subtitleInput = document.getElementById('capsule-subtitle');
+        
+            if (target === 'new') {
+                // 新建模式：第一级是页面大标题，第二级是卡片标题
+                titleInput.placeholder = "新胶囊页";
+                subtitleInput.style.display = 'block';
+                subtitleInput.placeholder = "胶囊";
+            } else {
+                // 补充模式：第一级（大标题）已固定，此时提示应为卡片标题
+                titleInput.placeholder = "胶囊";
+                subtitleInput.style.display = 'none';
+            }
         }
 
         function saveCapsule() {
@@ -291,7 +303,7 @@
             const updates = data.filter(item => !item.isPage);
             updates.forEach(item => {
                 if (item.targetId === "1") {
-                    appendItem('timeline-v1', `<div class="timeline-date">[${item.date} ${item.title}]</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
+                    appendItem('timeline-v1', `<div class="timeline-date">[${item.date}] ${item.title}</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
                 } else if (item.targetId === "2") {
                     appendItem('museum-v2', `<h4>${item.title}</h4><span style="font-size:0.6rem;opacity:0.5;">${item.date}</span><p>${item.content}</p>`, "museum-card");
                 } else if (item.targetId === "3") {
@@ -331,4 +343,5 @@
     </script>
 </body>
 </html>
+
 
