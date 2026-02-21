@@ -208,7 +208,7 @@
             const titleInput = document.getElementById('capsule-title');
             const subtitleInput = document.getElementById('capsule-subtitle');
             if (target === 'new') { titleInput.placeholder = "新胶囊页"; subtitleInput.style.display = 'block'; } 
-            else { titleInput.placeholder = "内容标题"; subtitleInput.style.display = 'none'; }
+            else { titleInput.placeholder = "胶囊"; subtitleInput.style.display = 'none'; }
         }
 
         function saveCapsule() {
@@ -216,7 +216,7 @@
             const title = document.getElementById('capsule-title').value.trim();
             const subtitle = document.getElementById('capsule-subtitle').value.trim();
             const content = document.getElementById('capsule-content').value.trim();
-            if (!content || !title) return alert("写点内容吧~");
+            if (!content || !title) return alert("记录当下的心情...");
 
             let memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
             let themeId = (target === 'new') ? Math.floor(Math.random() * 4) + 1 : (memories.find(m => m.id === target && m.isPage)?.themeId || 1);
@@ -268,7 +268,8 @@
             const div = document.createElement('div'); div.className = className; div.innerHTML = html; parent.appendChild(div);
         }
 
-        function clearMemory() { if(confirm("重置将清空所有实验室数据，确定吗？")) { localStorage.removeItem("love_capsules_data"); location.reload(); } }
+        function clearMemory() { if(confirm("确定清空所有记忆吗？清空后将无法恢复。")) { localStorage.removeItem("love_capsules_data"); location.reload(); } }
     </script>
 </body>
 </html>
+
