@@ -107,33 +107,36 @@
 
         <section class="page page-2">
             <h2 class="section-title">💘 胶囊1：心动时间线</h2>
-            <div class="timeline">
+            <div class="timeline" id="timeline-v1">
                 <div class="timeline-item"><div class="timeline-date">[2025/10/19] 相识日</div><div class="chat-bubble">"都在去吃饭的路上"</div></div>
                 <div class="timeline-item"><div class="timeline-date">[2025/10/27] 初见日</div><div class="chat-bubble">"感觉有希望周末打乒乓"</div></div>
                 <div class="timeline-item"><div class="timeline-date">[2025/10/30] 深夜debug</div><div class="chat-bubble">"和代码杠上了，终于搞清楚问题出在哪了"</div></div>
                 <div class="timeline-item"><div class="timeline-date">[2025/11/23] 散步&深度交流</div><div class="chat-bubble">"这家好了 挨着苏州河能逛逛"</div></div>
                 <div class="timeline-item"><div class="timeline-date">[2026/1/4] 心动确认</div><div class="chat-bubble">"我现在在体育馆乒乓球室这，你来一下呗"</div></div>
+                <div class="timeline-item">...</div> 
             </div>
             <div class="up-arrow">↓</div>
         </section>
 
         <section class="page page-3">
             <h2 class="section-title">🏛️ 胶囊2：专属梗博物馆</h2>
-            <div class="museum-grid">
+            <div class="museum-grid" id="museum-v2">
                 <div class="museum-card"><h4>🦌 梅花鹿之谜</h4><span class="tag">2026/02/18</span><p>"为啥是梅花鹿" - 未解之谜</p></div>
                 <div class="museum-card"><h4>🎆 烟花执念</h4><span class="tag">2025/12/13</span><p>"怎么又是烟花哈哈哈" - 第N个计划</p></div>
                 <div class="museum-card"><h4>🎡 海洋馆约定</h4><span class="tag">2025/12/18</span><p>"还想跟你看烟花逛海洋馆嘞"</p></div>
                 <div class="museum-card"><h4>💐 花语偏好</h4><span class="tag">2026/01/05</span><p>"但我喜欢原色花" - 重要情报</p></div>
+                <div class="museum-card">...</div>
             </div>
             <div class="up-arrow">↓</div>
         </section>
 
         <section class="page page-4">
             <h2 class="section-title">🌟 胶囊3：日常小确幸</h2>
-            <div class="sticky-wall">
+            <div class="sticky-wall" id="sticky-v3">
                 <div class="sticky-note"><strong>📝 "你竟然忘记续火花"</strong><small>(2026/2/17)</small></div>
                 <div class="sticky-note" style="background: #a29bfe;"><strong>📝 "我感觉我代码像是上个世纪写的"</strong><small>(2025/11/6)</small></div>
                 <div class="sticky-note" style="background: #fab1a0;"><strong>📝 "上次你给我跑通的代码"</strong><small>(2025/12/8)</small></div>
+                <div class="sticky-note">...</div>
             </div>
             <div class="up-arrow">↓</div>
         </section>
@@ -150,7 +153,7 @@
                     <option value="3">补充胶囊3：日常小确幸</option>
                 </select>
 
-                <textarea id="capsule-content" placeholder="在这里写下想对乖乖说的话..." style="width: 100%; height: 100px; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); resize: none;"></textarea>
+                <textarea id="capsule-content" placeholder="在这里记录新的时光胶囊..." style="width: 100%; height: 100px; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); resize: none;"></textarea>
                 
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                     <button onclick="saveCapsule()" style="flex: 2; background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 25px; font-weight: bold; cursor: pointer;">密封存入</button>
@@ -209,51 +212,79 @@
     
         // --- 3. 【新增】存储与写入逻辑 (这就是你要找的 saveCapsule) ---
         
-        // 页面一加载就显示之前存过的记忆
+        // 页面加载时执行
         window.addEventListener('DOMContentLoaded', loadMemory);
-    
+        
         function saveCapsule() {
             const target = document.getElementById('capsule-target').value;
             const content = document.getElementById('capsule-content').value;
-    
+        
             if (!content.trim()) {
                 alert("胶囊里不能是空的哦~");
                 return;
             }
-    
+        
             const timestamp = new Date().toLocaleDateString();
-            // 获取本地存储中的旧数据
             let memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
-    
-            // 将新内容压入数组
+        
+            // 存入新数据
             memories.push({
                 target: target,
                 content: content,
                 date: timestamp
             });
-    
-            // 存回本地
+        
             localStorage.setItem("love_capsules_data", JSON.stringify(memories));
-    
-            // 清空输入框并刷新列表
+        
+            // 清空输入框并刷新所有页面的显示
             document.getElementById('capsule-content').value = "";
             loadMemory();
-            alert("✨ 记忆已密封存入这台设备！");
+            alert("✨ 记忆已归位到对应胶囊中！");
         }
-    
+        
         function loadMemory() {
             const memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
-            const displayArea = document.getElementById('new-capsules-display');
-            if(!displayArea) return; // 防止在其他页面报错
-    
-            displayArea.innerHTML = "";
+            
+            // 获取三个胶囊的容器
+            const box1 = document.getElementById('timeline-v1');
+            const box2 = document.getElementById('museum-v2');
+            const box3 = document.getElementById('sticky-v3');
+            const boxNew = document.getElementById('new-capsules-display');
+        
+            // 清理之前生成的动态内容（保留原始静态内容）
+            // 注意：这里建议在 HTML 里给原始内容加个 class="static"，方便清理，或者简单处理如下：
+            document.querySelectorAll('.dynamic-item').forEach(el => el.remove());
+        
             memories.forEach(item => {
                 const div = document.createElement('div');
-                div.style.cssText = "background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; border-left: 3px solid var(--secondary-color); color: white;";
-                
-                let label = item.target === "new" ? "🆕 新胶囊" : `补充：胶囊${item.target}`;
-                div.innerHTML = `<strong>${label}</strong> <small style="opacity:0.6">${item.date}</small><br>${item.content}`;
-                displayArea.prepend(div); // 最新写的排在最上面
+                div.className = "dynamic-item"; // 标记为动态生成
+        
+                if (item.target === "1") {
+                    // 插入到时间线
+                    div.className += " timeline-item";
+                    div.innerHTML = `<div class="timeline-date">[${item.date}] 补充内容</div><div class="chat-bubble">${item.content}</div>`;
+                    box1.appendChild(div);
+                } 
+                else if (item.target === "2") {
+                    // 插入到梗博物馆
+                    div.className += " museum-card";
+                    div.style.background = "#fff"; // 确保卡片底色
+                    div.innerHTML = `<h4>📝 新增馆藏</h4><span class="tag">${item.date}</span><p>${item.content}</p>`;
+                    box2.appendChild(div);
+                } 
+                else if (item.target === "3") {
+                    // 插入到便利贴墙
+                    div.className += " sticky-note";
+                    div.style.background = "#fff34d"; // 经典便利贴黄
+                    div.innerHTML = `<strong>📝 补充记忆</strong><small>(${item.date})</small><p style="margin:5px 0 0 0; font-size:0.8rem;">${item.content}</p>`;
+                    box3.appendChild(div);
+                } 
+                else {
+                    // 插入到最后一页的“新胶囊”展示区
+                    div.style.cssText = "background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; border-left: 3px solid var(--secondary-color); color: white;";
+                    div.innerHTML = `<strong>🆕 新胶囊</strong> <small style="opacity:0.6">${item.date}</small><br>${item.content}`;
+                    boxNew.prepend(div);
+                }
             });
         }
     
@@ -266,4 +297,5 @@
     </script>
 </body>
 </html>
+
 
