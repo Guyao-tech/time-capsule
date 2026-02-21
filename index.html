@@ -49,19 +49,40 @@
             padding-right: 5px; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- 动态胶囊页样式 --- */
-        .unified-card { padding: 18px; margin-bottom: 15px; width: 95%; text-align: left; }
+        .section-title { border-left: 4px solid var(--primary-color); padding-left: 10px; margin-bottom: 20px; align-self: flex-start; flex-shrink: 0; }
+
+        /* 统一卡片 */
+        .unified-card { padding: 15px; margin-bottom: 15px; width: 95%; text-align: left; }
         .unified-card h3 { margin: 0; font-size: 1.1rem; }
         .unified-card small { font-size: 0.7rem; opacity: 0.6; display: block; margin: 5px 0; }
-        .unified-card hr { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0; }
+        .unified-card hr { border: 0.5px solid rgba(255,255,255,0.1); margin: 10px 0; }
         .unified-card p { line-height: 1.6; font-size: 0.95rem; margin: 0; }
 
-        .theme-1 { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); border-radius: 20px; }
-        .theme-2 { background: #fdf6e3; color: #5d4037 !important; border-radius: 2px; border: 2px solid #d3b17d; }
-        .theme-3 { background: rgba(0, 0, 0, 0.4); border: 1px dashed #00d2d1; border-radius: 15px; }
-        .theme-4 { background: #fff34d; color: #333 !important; border-radius: 0; transform: rotate(-1.5deg); box-shadow: 5px 5px 10px rgba(0,0,0,0.3); }
+        /* 风格主题 */
+        .theme-1 { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); border-radius: 15px; }
+        .theme-2 { background: rgba(253, 246, 227, 0.9); color: #5d4037 !important; border-radius: 4px; border-left: 5px solid #d3b17d; }
+        .theme-3 { background: rgba(0, 0, 0, 0.25); border: 1px dashed #ff7eb3; border-radius: 20px; }
+        .theme-4 { background: #fff34d; color: #333 !important; border-radius: 2px; transform: rotate(-1deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
 
-        /* 背景渐变 */
+        /* 胶囊1 样式 */
+        .timeline { border-left: 2px dashed rgba(255,255,255,0.3); padding-left: 20px; width: 100%; }
+        .timeline-item { margin-bottom: 20px; text-align: left; }
+        .timeline-date { font-size: 0.85rem; color: var(--secondary-color); font-weight: bold; }
+        .chat-bubble { background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 12px 12px 12px 0; margin-top: 5px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.1); }
+
+        /* 胶囊2 样式 */
+        .museum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+        .museum-card { background: #ffffff; color: #333; padding: 12px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transform: rotate(-1deg); text-align: left; }
+        .museum-card h4 { margin: 0; font-size: 0.9rem; color: #d63031; }
+
+        /* 胶囊3 样式：关键修复内容不换行 */
+        .sticky-wall { width: 100%; }
+        .sticky-note { background: #fff34d; color: #333; padding: 15px; margin-bottom: 12px; box-shadow: 5px 5px 7px rgba(0,0,0,0.3); text-align: left; line-height: 1.5; }
+        .sticky-note strong { font-size: 1rem; }
+        .sticky-note small { margin: 0 8px; color: #666; font-size: 0.75rem; }
+        .sticky-note .note-text { display: inline; font-size: 0.95rem; } /* 确保内容不换行 */
+
+        /* 页面渐变 */
         .page-1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
         .page-2 { background: linear-gradient(135deg, #16213e 0%, #2d3436 100%); }
         .page-3 { background: linear-gradient(135deg, #2d3436 0%, #0f3460 100%); }
@@ -69,27 +90,11 @@
         .dynamic-page { background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%); }
         .page-5 { background: linear-gradient(135deg, #533483 0%, #1a1a2e 100%); }
 
-        .section-title { border-left: 4px solid var(--primary-color); padding-left: 10px; margin-bottom: 20px; align-self: flex-start; }
-
-        /* --- 核心修复：胶囊3 便利贴样式 --- */
-        .sticky-note { background: #fff34d; color: #333; padding: 15px; margin-bottom: 12px; box-shadow: 5px 5px 7px rgba(0,0,0,0.3); width: 100%; text-align: left; }
-        /* 强制让标题、日期、内容都在一行显示 */
-        .sticky-note .note-content-inline { display: inline; font-size: 0.95rem; line-height: 1.6; }
-        .sticky-note strong { color: #000; margin-right: 5px; }
-        .sticky-note small { color: #666; font-size: 0.75rem; margin-right: 10px; }
-
-        /* 其他原有样式 */
-        .timeline { border-left: 2px dashed rgba(255,255,255,0.3); padding-left: 20px; width: 100%; }
-        .timeline-item { margin-bottom: 20px; }
-        .chat-bubble { background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 12px 12px 12px 0; margin-top: 5px; font-size: 0.9rem; }
-        .museum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
-        .museum-card { background: #ffffff; color: #333; padding: 12px; border-radius: 10px; transform: rotate(-1deg);}
-
         .input-area { width: 100%; max-width: 400px; }
-        input, textarea, select { width: 100%; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; background: rgba(255,255,255,0.95); }
+        input, textarea, select { width: 100%; border-radius: 10px; padding: 12px; border: none; margin-bottom: 12px; background: rgba(255,255,255,0.95); font-size: 0.9rem; }
         button { background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
 
-        .up-arrow { position: absolute; bottom: 20px; animation: updown 2s infinite; font-size: 20px; opacity: 0.6; }
+        .up-arrow { position: absolute; bottom: 20px; animation: updown 2s infinite; font-size: 20px; opacity: 0.6; pointer-events: none; }
         @keyframes updown { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-10px)} }
     </style>
 </head>
@@ -102,37 +107,46 @@
     <div class="swiper-container" id="swiper">
         <section class="page page-1">
             <h1 style="font-size: 1.8rem; margin-bottom: 10px;">❤️ 致乖乖的时间胶囊 ❤️</h1>
-            <p>触摸屏幕，开启回忆旅程</p>
+            <p>滑屏或点击，开启回忆旅程</p>
             <div class="up-arrow">↓</div>
         </section>
-        
+
         <section class="page page-2">
             <h2 class="section-title">💘 胶囊1：心动时间线</h2>
-            <div class="scroll-area"><div class="timeline" id="timeline-v1">
-                <div class="timeline-item"><div class="timeline-date">[2025/10/19] 相识日</div><div class="chat-bubble">"都在去吃饭的路上"</div></div>
-            </div></div>
+            <div class="scroll-area">
+                <div class="timeline" id="timeline-v1">
+                    <div class="timeline-item"><div class="timeline-date">[2025/10/19] 相识日</div><div class="chat-bubble">"都在去吃饭的路上"</div></div>
+                    <div class="timeline-item"><div class="timeline-date">[2025/10/27] 初见日</div><div class="chat-bubble">"感觉有希望周末打乒乓"</div></div>
+                    <div class="timeline-item"><div class="timeline-date">[2025/10/30] 深夜debug</div><div class="chat-bubble">"和代码杠上了，终于搞清楚问题出在哪了"</div></div>
+                    <div class="timeline-item"><div class="timeline-date">[2025/11/23] 散步&深度交流</div><div class="chat-bubble">"这家好了 挨着苏州河能逛逛"</div></div>
+                    <div class="timeline-item"><div class="timeline-date">[2026/1/4] 心动确认</div><div class="chat-bubble">"我现在在体育馆乒乓球室这，你来一下呗"</div></div>
+                </div>
+            </div>
             <div class="up-arrow">↓</div>
         </section>
 
         <section class="page page-3">
             <h2 class="section-title">🏛️ 胶囊2：专属梗博物馆</h2>
-            <div class="scroll-area"><div class="museum-grid" id="museum-v2">
-                <div class="museum-card"><h4>🦌 梅花鹿之谜</h4><p>"为啥是梅花鹿"</p></div>
-            </div></div>
+            <div class="scroll-area">
+                <div class="museum-grid" id="museum-v2">
+                    <div class="museum-card"><h4>🦌 梅花鹿之谜</h4><p>"为啥是梅花鹿" - 未解之谜</p></div>
+                    <div class="museum-card"><h4>🎆 烟花执念</h4><p>"怎么又是烟花哈哈哈" - 第N个计划</p></div>
+                    <div class="museum-card"><h4>🎡 海洋馆约定</h4><p>"还想跟你看烟花逛海洋馆嘞"</p></div>
+                    <div class="museum-card"><h4>💐 花语偏好</h4><p>"但我喜欢原色花" - 重要情报</p></div>
+                </div>
+            </div>
             <div class="up-arrow">↓</div>
         </section>
 
         <section class="page page-4">
             <h2 class="section-title">🌟 胶囊3：日常小确幸</h2>
-            <div class="scroll-area"><div class="sticky-wall" id="sticky-v3">
-                <div class="sticky-note">
-                    <div class="note-content-inline">
-                        <strong>📝 火花断了</strong>
-                        <small>(2026/2/17)</small>
-                        <span>你竟然忘记续火花！</span>
-                    </div>
+            <div class="scroll-area">
+                <div class="sticky-wall" id="sticky-v3">
+                    <div class="sticky-note"><strong>📝 "你竟然忘记续火花"</strong><small>(2026/2/17)</small></div>
+                    <div class="sticky-note" style="background: #a29bfe;"><strong>📝 "我感觉我代码像是上个世纪写的"</strong><small>(2025/11/6)</small></div>
+                    <div class="sticky-note" style="background: #fab1a0;"><strong>📝 "上次你给我跑通的代码"</strong><small>(2025/12/8)</small></div>
                 </div>
-            </div></div>
+            </div>
             <div class="up-arrow">↓</div>
         </section>
 
@@ -148,12 +162,14 @@
                     <option value="3">补充到：🌟 胶囊3 (便利贴)</option>
                 </select>
                 <div id="title-inputs">
-                    <input type="text" id="capsule-title" placeholder="标题/标签">
-                    <input type="text" id="capsule-subtitle" placeholder="新胶囊页名称" style="display:none;">
+                    <input type="text" id="capsule-title" placeholder="新胶囊页">
+                    <input type="text" id="capsule-subtitle" placeholder="胶囊">
                 </div>
-                <textarea id="capsule-content" placeholder="记录当下的内容..."></textarea>
-                <button onclick="saveCapsule()" style="width:100%;">密封存入</button>
-                <button onclick="clearMemory()" style="width:100%; background:#666; margin-top:10px;">清空所有</button>
+                <textarea id="capsule-content" placeholder="记录当下的心情..."></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="saveCapsule()" style="flex: 2;">密封存入</button>
+                    <button onclick="clearMemory()" style="flex: 1; background: #666;">重置</button>
+                </div>
             </div>
         </section>
     </div>
@@ -164,16 +180,12 @@
         const audio = document.getElementById('bg-audio');
         const btn = document.getElementById('music-btn');
 
-        // 音乐自动播放激活
-        document.addEventListener('touchstart', () => { audio.play().then(()=>btn.classList.add('rotate')).catch(()=>{}); }, { once: true });
+        // 音乐自动播放逻辑
+        function startMusic() { if (audio.paused) { audio.play().then(()=>btn.classList.add('rotate')).catch(()=>{}); } }
+        document.addEventListener('touchstart', startMusic, { once: true });
+        document.addEventListener('click', startMusic, { once: true });
 
-        function toggleMusic(e) {
-            e.stopPropagation();
-            if (audio.paused) { audio.play(); btn.classList.add('rotate'); } 
-            else { audio.pause(); btn.classList.remove('rotate'); }
-        }
-
-        // 翻页逻辑
+        // 翻页
         document.addEventListener('touchstart', e => startY = e.touches[0].pageY, { passive: false });
         document.addEventListener('touchmove', e => { if(e.target.closest('.scroll-area')) return; e.preventDefault(); }, { passive: false });
         document.addEventListener('touchend', e => {
@@ -183,15 +195,20 @@
                 if (diff > 0 && currentIdx < total - 1) currentIdx++;
                 else if (diff < 0 && currentIdx > 0) currentIdx--;
                 container.style.transform = `translateY(-${currentIdx * 100}vh)`;
+                startMusic();
             }
         }, { passive: false });
+
+        function toggleMusic(e) { e.stopPropagation(); if (audio.paused) { audio.play(); btn.classList.add('rotate'); } else { audio.pause(); btn.classList.remove('rotate'); } }
 
         window.addEventListener('DOMContentLoaded', loadMemory);
 
         function toggleTitleMode() {
             const target = document.getElementById('capsule-target').value;
-            const subInput = document.getElementById('capsule-subtitle');
-            subInput.style.display = (target === 'new') ? 'block' : 'none';
+            const titleInput = document.getElementById('capsule-title');
+            const subtitleInput = document.getElementById('capsule-subtitle');
+            if (target === 'new') { titleInput.placeholder = "新胶囊页"; subtitleInput.style.display = 'block'; } 
+            else { titleInput.placeholder = "内容标题"; subtitleInput.style.display = 'none'; }
         }
 
         function saveCapsule() {
@@ -199,80 +216,59 @@
             const title = document.getElementById('capsule-title').value.trim();
             const subtitle = document.getElementById('capsule-subtitle').value.trim();
             const content = document.getElementById('capsule-content').value.trim();
+            if (!content || !title) return alert("写点内容吧~");
 
-            if (!content || !title) return alert("还没填完呢~");
-
-            let memories = JSON.parse(localStorage.getItem("love_capsules_v5")) || [];
-            let themeId;
-            if (target === 'new') themeId = Math.floor(Math.random() * 4) + 1;
-            else {
-                const parent = memories.find(m => m.id === target && m.isPage);
-                themeId = parent ? parent.themeId : 1;
-            }
+            let memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
+            let themeId = (target === 'new') ? Math.floor(Math.random() * 4) + 1 : (memories.find(m => m.id === target && m.isPage)?.themeId || 1);
 
             memories.push({
                 id: target === 'new' ? "page_" + Date.now() : target,
                 isPage: target === 'new',
                 title, subtitle: subtitle || "Memory",
-                content, date: new Date().toLocaleDateString(),
-                targetId: target, themeId
+                content, date: new Date().toLocaleDateString(), targetId: target, themeId: themeId
             });
 
-            localStorage.setItem("love_capsules_v5", JSON.stringify(memories));
+            localStorage.setItem("love_capsules_data", JSON.stringify(memories));
             location.reload();
         }
 
         function loadMemory() {
-            const data = JSON.parse(localStorage.getItem("love_capsules_v5")) || [];
+            const data = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
             const select = document.getElementById('capsule-target');
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             
-            // 渲染动态页
             data.filter(item => item.isPage).forEach(page => {
                 const sec = document.createElement('section');
                 sec.className = "page dynamic-page";
                 const themeClass = `theme-${page.themeId || 1}`;
-                sec.innerHTML = `
-                    <h2 class="section-title">${page.title}</h2>
-                    <div class="scroll-area"><div id="content-${page.id}" style="width:100%; display:flex; flex-direction:column; align-items:center;">
-                        <div class="unified-card ${themeClass}"><h3>${page.subtitle}</h3><small>${page.date}</small><hr><p>${page.content}</p></div>
-                    </div></div><div class="up-arrow">↓</div>`;
+                sec.innerHTML = `<h2 class="section-title">${page.title}</h2><div class="scroll-area"><div id="content-${page.id}" style="width:100%; display:flex; flex-direction:column; align-items:center;"><div class="unified-card ${themeClass}"><h3>${page.subtitle}</h3><small>${page.date}</small><hr><p>${page.content}</p></div></div></div><div class="up-arrow">↓</div>`;
                 dynamicContainer.appendChild(sec);
                 const opt = document.createElement('option'); opt.value = page.id; opt.textContent = `补充到：${page.title}`; select.appendChild(opt);
             });
 
-            // 渲染内容
             data.filter(item => !item.isPage).forEach(item => {
-                const targetBox = document.getElementById(`content-${item.targetId}`);
-                if(targetBox) {
-                    const div = document.createElement('div');
-                    div.className = `unified-card ${`theme-${item.themeId || 1}`}`;
-                    div.innerHTML = `<h3>${item.title}</h3><small>${item.date}</small><hr><p>${item.content}</p>`;
-                    targetBox.appendChild(div);
-                } else if (item.targetId === "1") {
-                    appendItem('timeline-v1', `<div class="timeline-date">[${item.date}] ${item.title}</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
-                } else if (item.targetId === "2") {
-                    appendItem('museum-v2', `<h4>${item.title}</h4><p>${item.content}</p>`, "museum-card");
-                } else if (item.targetId === "3") {
-                    // --- 核心修复：胶囊3 补充内容实现标题+日期+内容 连在一起 ---
-                    appendItem('sticky-v3', `
-                        <div class="note-content-inline">
-                            <strong>📝 ${item.title}</strong>
-                            <small>(${item.date})</small>
-                            <span>${item.content}</span>
-                        </div>`, "sticky-note");
+                if (item.targetId === "1") appendItem('timeline-v1', `<div class="timeline-date">[${item.date}] ${item.title}</div><div class="chat-bubble">${item.content}</div>`, "timeline-item");
+                else if (item.targetId === "2") appendItem('museum-v2', `<h4>${item.title}</h4><p>${item.content}</p>`, "museum-card");
+                // 核心修复：这里添加 note-text 类名确保单行
+                else if (item.targetId === "3") appendItem('sticky-v3', `<strong>📝 ${item.title}</strong><small>(${item.date})</small><div class="note-text">${item.content}</div>`, "sticky-note");
+                else {
+                    const targetBox = document.getElementById(`content-${item.targetId}`);
+                    if(targetBox) {
+                        const div = document.createElement('div'); div.className = `unified-card theme-${item.themeId || 1}`;
+                        div.innerHTML = `<h3>${item.title}</h3><small>${item.date}</small><hr><p>${item.content}</p>`;
+                        targetBox.appendChild(div);
+                    }
                 }
             });
-            total = 5 + data.filter(item => item.isPage).length;
+            total = 5 + document.querySelectorAll('.dynamic-page').length;
         }
 
         function appendItem(parentId, html, className) {
-            const parent = document.getElementById(parentId);
-            const div = document.createElement('div'); div.className = className; div.innerHTML = html;
-            parent.appendChild(div);
+            const parent = document.getElementById(parentId); if (!parent) return;
+            const div = document.createElement('div'); div.className = className; div.innerHTML = html; parent.appendChild(div);
         }
 
-        function clearMemory() { if(confirm("确定要全部重置吗？")) { localStorage.removeItem("love_capsules_v5"); location.reload(); } }
+        function clearMemory() { if(confirm("重置将清空所有实验室数据，确定吗？")) { localStorage.removeItem("love_capsules_data"); location.reload(); } }
     </script>
 </body>
 </html>
