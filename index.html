@@ -157,9 +157,9 @@
             <div class="input-area">
                 <select id="capsule-target" onchange="toggleTitleMode()">
                     <option value="new">🆕 创建全新独立胶囊页</option>
-                    <option value="1">补充到：💘 胶囊1：心动时间线</option>
-                    <option value="2">补充到：🏛️ 胶囊2：专属梗博物馆</option>
-                    <option value="3">补充到：🌟 胶囊3：日常小确幸</option>
+                    <option value="1">💘 胶囊1：心动时间线</option>
+                    <option value="2">🏛️ 胶囊2：专属梗博物馆</option>
+                    <option value="3">🌟 胶囊3：日常小确幸</option>
                 </select>
                 <div id="title-inputs">
                     <input type="text" id="capsule-title" placeholder="新胶囊页">
@@ -243,7 +243,7 @@
                 const themeClass = `theme-${page.themeId || 1}`;
                 sec.innerHTML = `<h2 class="section-title">${page.title}</h2><div class="scroll-area"><div id="content-${page.id}" style="width:100%; display:flex; flex-direction:column; align-items:center;"><div class="unified-card ${themeClass}"><h3>${page.subtitle}</h3><small>${page.date}</small><hr><p>${page.content}</p></div></div></div><div class="up-arrow">↓</div>`;
                 dynamicContainer.appendChild(sec);
-                const opt = document.createElement('option'); opt.value = page.id; opt.textContent = `补充到：${page.title}`; select.appendChild(opt);
+                const opt = document.createElement('option'); opt.value = page.id; opt.textContent = `${page.title}`; select.appendChild(opt);
             });
 
             data.filter(item => !item.isPage).forEach(item => {
@@ -272,5 +272,6 @@
     </script>
 </body>
 </html>
+
 
 
