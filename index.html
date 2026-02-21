@@ -172,10 +172,10 @@
     <script>
         let currentIdx = 0;
         const container = document.getElementById('swiper');
-        const total = 5; 
+        let total = 5; // 设为 let，方便以后动态增加页数
         let startY = 0;
     
-        // --- 1. 核心滑动逻辑 (保持之前的修复版) ---
+        // --- 1. 滑动逻辑 ---
         document.addEventListener('touchstart', (e) => {
             startY = e.touches[0].pageY;
         }, { passive: false });
@@ -194,7 +194,7 @@
             }
         }, { passive: false });
     
-        // --- 2. 音乐控制逻辑 ---
+        // --- 2. 音乐控制 ---
         const audio = document.getElementById('por-una-cabeza');
         const btn = document.getElementById('music-btn');
     
@@ -211,52 +211,74 @@
             if (audio.paused) toggleMusic();
         }, { once: true });
     
-        // --- 3. 【新增】存储与写入逻辑 (这就是你要找的 saveCapsule) ---
-        
-        // 页面加载时执行
+        // --- 3. 核心存储与渲染逻辑 ---
+    
+        // 页面加载自动读取
         window.addEventListener('DOMContentLoaded', loadMemory);
-        
+    
         function saveCapsule() {
             const target = document.getElementById('capsule-target').value;
-            const content = document.getElementById('capsule-content').value;
-        
-            if (!content.trim()) {
-                alert("胶囊里不能是空的哦~");
+            const title = document.getElementById('capsule-title').value.trim();
+            const content = document.getElementById('capsule-content').value.trim();
+    
+            if (!content) {
+                alert("内容不能为空哦~");
                 return;
             }
-        
+    
             const timestamp = new Date().toLocaleDateString();
             let memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
-        
+    
             // 存入新数据
             memories.push({
                 target: target,
+                title: title || timestamp, // 没写标题就用日期
                 content: content,
                 date: timestamp
             });
-        
+    
             localStorage.setItem("love_capsules_data", JSON.stringify(memories));
-        
-            // 清空输入框并刷新所有页面的显示
+    
+            // 清空输入
+            document.getElementById('capsule-title').value = "";
             document.getElementById('capsule-content').value = "";
-            loadMemory();
-            alert("✨ 记忆已归位到对应胶囊中！");
+            
+            loadMemory(); // 重新渲染页面
+            alert("✨ 记忆已归位！向上滑去看看吧~");
         }
-        
+    
+        function loadMemory() {
+            const memories = JSON.parse(localStorage.getItem("love_capsules_data")) || [];
+            
+            // 渲染到前几页的补充内容
+            renderExtensions(memories);
+    
+            // 渲染最后一页的列表预览
+            const boxNew = document.getElementById('new-capsules-display');
+            if (boxNew) {
+                boxNew.innerHTML = "";
+                memories.forEach(item => {
+                    const div = document.createElement('div');
+                    div.style.cssText = "background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; margin-bottom: 8px; font-size: 0.8rem; border-left: 3px solid var(--secondary-color); color: white;";
+                    let label = item.target === "new" ? "🆕 新页" : `补充胶囊${item.target}`;
+                    div.innerHTML = `<strong>${label}: ${item.title}</strong><br>${item.content}`;
+                    boxNew.prepend(div);
+                });
+            }
+        }
+    
         function renderExtensions(memories) {
-            // 清除旧的动态内容
+            // 清除所有之前生成的动态元素，防止重复
             document.querySelectorAll('.dynamic-item').forEach(el => el.remove());
-        
+    
             memories.forEach(item => {
                 if (item.target === "1") {
-                    // 时间线：标题显示在日期位置
                     appendItem('timeline-v1', `
                         <div class="timeline-date">[${item.title}]</div>
                         <div class="chat-bubble">${item.content}</div>
                     `, "timeline-item");
                 } 
                 else if (item.target === "2") {
-                    // 博物馆：标题显示在卡片标题 H4
                     appendItem('museum-v2', `
                         <h4>${item.title}</h4>
                         <span class="tag">${item.date}</span>
@@ -264,7 +286,6 @@
                     `, "museum-card");
                 } 
                 else if (item.target === "3") {
-                    // 便利贴：标题显示在 Strong 标签
                     appendItem('sticky-v3', `
                         <strong>📝 ${item.title}</strong>
                         <small>(${item.date})</small>
@@ -273,28 +294,29 @@
                 }
             });
         }
-
+    
         function appendItem(parentId, html, className) {
             const parent = document.getElementById(parentId);
             if (!parent) return;
             const div = document.createElement('div');
             div.className = "dynamic-item " + className;
-            // 博物馆卡片需要额外的背景色
+            // 针对不同类型的卡片补充样式
             if(className.includes("museum-card")) div.style.background = "#fff";
             if(className.includes("sticky-note")) div.style.background = "#fff34d";
             div.innerHTML = html;
-            parent.appendChild(div);
+            parent.appendChild(div); // 默认排在最后
         }
-                
+    
         function clearMemory() {
             if(confirm("确定要清空新写入的记录吗？")) {
                 localStorage.removeItem("love_capsules_data");
-                loadMemory();
+                location.reload(); // 清空后刷新页面最稳妥
             }
         }
     </script>
 </body>
 </html>
+
 
 
 
